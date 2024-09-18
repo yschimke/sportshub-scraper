@@ -65,7 +65,7 @@ enum DataCommands {
         /// (default: true)
         /// usage: sportshub update -H
         /// usage: sportshub update -H -t 20
-        #[clap(short = 'H', long = "headless")]
+        #[clap(short = 'H', long = "headless", default_value = "true")]
         headless: bool,
     },
     #[clap(about = "Get the info about the current database")]
@@ -86,7 +86,14 @@ async fn main() {
         Some(Commands::Data { data_command }) => {
             match data_command {
                 Some(DataCommands::Scrape { headless }) => {
-                    scrape::scrape_events(headless).unwrap();
+                    let result = scrape::scrape_events(headless);
+
+                    if let Err(e) = result {
+                        eprintln!("{}", e);
+                    } else {
+                        eprintln!("Scrape completed successfully");
+                    }
+                    // result.unwrap();
                 }
                 Some(DataCommands::Update { tabs, headless }) => {
                     scrape::update_streams(tabs as usize, headless).unwrap();

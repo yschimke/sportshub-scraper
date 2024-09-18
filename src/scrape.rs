@@ -149,7 +149,7 @@ pub fn parse_game(conn: &mut SqliteConnection, sport: &str, html: &str) -> Resul
     // we split the info into league and time
     let mut info_parsed = info.split('/');
     let league = &info_parsed.next().unwrap_or("Unknown").trim().to_string();
-    let time = chrono::NaiveDateTime::from_timestamp_opt(
+    #[allow(deprecated)] let time = chrono::NaiveDateTime::from_timestamp_opt(
         crate::date_parser::date_string_to_timestamp(info_parsed.next().unwrap_or("Unknown"))?,
         0,
     );
@@ -319,6 +319,7 @@ pub fn scrape_events(headless: bool) -> Result<(), anyhow::Error> {
 
     // we close all the tabs because otherwise it shows an error when program
     // finishes
+    //noinspection RsUnwrap
     for t in (*browser.get_tabs().as_ref().lock().unwrap()).iter() {
         t.close(true)?;
     }

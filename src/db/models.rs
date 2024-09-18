@@ -31,6 +31,7 @@ pub struct StreamNew<'a> {
     pub sport: &'a str,
 }
 
+#[allow(deprecated)]
 impl Serialize for Stream {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -52,14 +53,13 @@ impl Serialize for Stream {
 }
 
 mod tests {
-    
-
-    
-
+    #[allow(unused_imports)]
+    use chrono::NaiveDateTime;
+    use crate::db::models::Stream;
 
     #[test]
     fn test_serialise_streamlink() {
-        let stream = Stream {
+        #[allow(deprecated)] let stream = Stream {
             id: Some(1),
             home: "home".to_string(),
             away: "away".to_string(),
@@ -78,7 +78,7 @@ mod tests {
 
     #[test]
     fn test_serialise_streamlink_multiple() {
-        let stream = Stream {
+        #![allow(deprecated)] let stream = Stream {
             id: Some(1),
             home: "home".to_string(),
             away: "away".to_string(),
@@ -97,7 +97,7 @@ mod tests {
 
     #[test]
     fn test_serialise_streamlink_empty() {
-        let stream = Stream {
+        #[allow(deprecated)] let stream = Stream {
             id: Some(1),
             home: "home".to_string(),
             away: "away".to_string(),
